@@ -1,3 +1,4 @@
+
 #ifndef AEROBOTIX_ARDUINO_NAV_H
 #define AEROBOTIX_ARDUINO_NAV_H
 
@@ -26,7 +27,7 @@ public:
     float calculDistance(long deltaLeftCount, long deltaRightCount, float wheel_radius, int nb_ticks);
     void speed_calcul();
 
-    // ===== GETTER FUNCTIONS =====
+        // ===== GETTER FUNCTIONS =====
     // Motor pins
     uint8_t getIN1() { return _IN1; }
     uint8_t getIN2() { return _IN2; }
@@ -146,96 +147,45 @@ public:
 
 private:
     // ===== PRIVATE VARIABLES =====
-    // Motor control pins
-    uint8_t _IN1 = 3;
-    uint8_t _IN2 = 2;
-    uint8_t _IN3 = 4;
-    uint8_t _IN4 = 5;
+    // Motor pins
+    uint8_t _IN1 = 3, _IN2 = 2, _IN3 = 4, _IN4 = 5;
 
     // Encoder pins
-    uint8_t _interruptPinRA = 18;
-    uint8_t _interruptPinRB = 19;
-    uint8_t _interruptPinLA = 20;
-    uint8_t _interruptPinLB = 21;
+    uint8_t _interruptPinRA = 18, _interruptPinRB = 19, _interruptPinLA = 20, _interruptPinLB = 21;
 
-    // Robot physical parameters
-    float _wheel_radius = 39.55;
-    float _entreaxe = 305;
+    // Physical parameters
+    float _wheel_radius = 39.55, _entreaxe = 305;
     int _nb_ticks = 800;
 
-    // Ticks per unit conversions
-    float _tickcmR = 58.6;
-    float _tickcmL = 58.9;
-    int _tickZR_P = 882;
-    int _tickZL_N = 886;
-    int _tickZL_P = 887;
-    int _tickZR_N = 882;
+    // Navigation & control variables
+    float _currentvelocityRight = 0, _currentvelocityLeft = 0;
+    long _encoderLeftCount = 0, _encoderRightCount = 0;
+    float _theta = 0, _dS_total = 0;
+    float _PWM_R = 0, _PWM_L = 0;
+    int _sens = 1, _speed_ech = 10;
 
-    // Control parameters
-    int _maxSpeed = 120;
-    int _minSpeed = 10;
-    int _maxAcc = 10;
-    float _PI = 3.14159265358979323846;
-
-    // PID parameters
-    float _kp = 0.1;
-    float _ki = 0.05;
-    float _kTheta = 2;
-    float _kp_dour = 0.001;
-    float _k_position = 0.5;
-
-    // PWM limits
-    float _PWM_MIN = 70;
-    float _PWM_MAX = 180;
-    float _PWM_MIN_DOURA = 85;
-    float _PWM_MAX_DOURA = 150;
-
-    // Navigation variables
-    float _currentvelocityRight = 0.0;
-    float _currentvelocityLeft = 0.0;
-    long _encoderLeftCount = 0;
-    long _encoderRightCount = 0;
-    float _theta = 0.0;
-    float _dS_total = 0.0;
-
-    // Control variables
-    float _PWM_R = 0.0;
-    float _PWM_L = 0.0;
-    int _sens = 1;
-    int _speed_ech = 10;
-
-    // Error terms
-    float _right_erreur = 0.0;
-    float _left_erreur = 0.0;
-    float _i_right_erreur = 0.0;
-    float _i_left_erreur = 0.0;
-    float _orientation_erreur = 0.0;
-    float _i_orientation_erreur = 0.0;
-    float _Theta_correction = 0.0;
-    float _position_erreur = 0.0;
-
-    // Odometry variables
-    long _lastEncoderLeftCount = 0;
-    long _lastEncoderRightCount = 0;
-    float _totalL = 0.0;
-    float _totalR = 0.0;
-
-    // Timing variables
+    // Error terms & odometry
+    float _right_erreur = 0, _left_erreur = 0;
+    float _i_right_erreur = 0, _i_left_erreur = 0;
+    float _orientation_erreur = 0, _position_erreur = 0;
+    long _lastEncoderLeftCount = 0, _lastEncoderRightCount = 0;
+    float _totalL = 0, _totalR = 0;
+    float _dsR = 0, _dsL = 0, _dS = 0, _dTheta = 0;
+    float _total_ech_l = 0, _total_ech_r = 0;
     unsigned long _previousMillis = 0;
-    unsigned long _chrono = 0;
     long _t = 0;
-    float _total_ech_l = 0.0;
-    float _total_ech_r = 0.0;
 
-    // Distance calculations
-    float _dsR = 0.0;
-    float _dsL = 0.0;
-    float _dS = 0.0;
-    float _dTheta = 0.0;
+    // ===== STATIC ISR SUPPORT =====
+    static Aerobotix_Arduino_nav* instance; // pointer for static ISRs
+    static void interruptR_static();
+    static void interruptL_static();
+    static void updateOdometrie_static();
+
+    // Actual handlers
+    void handleRightInterrupt();
+    void handleLeftInterrupt();
 
     // ===== PRIVATE METHODS =====
-    void interruptR();
-    void interruptL();
     void applyMotorCommand(float cmdPwmRight, float cmdPwmLeft);
     void run();
     void iniiit();
@@ -248,7 +198,7 @@ private:
     float ramp(int time);
 };
 
-// External instance for ISR compatibility
+// Global instance for ISR
 extern Aerobotix_Arduino_nav aerobotix_arduino_nav;
 
 #endif // AEROBOTIX_ARDUINO_NAV_H
