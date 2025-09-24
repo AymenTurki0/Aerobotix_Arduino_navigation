@@ -1,0 +1,40 @@
+# Class names
+Aerobotix_Arduino_nav	KEYWORD1
+
+# Main methods
+begin	KEYWORD2
+moveDistance	KEYWORD2
+rotate	KEYWORD2
+dour	KEYWORD2
+go	KEYWORD2
+stopmotors	KEYWORD2
+updateOdometrie	KEYWORD2
+
+# Utility functions
+RadToDeg	KEYWORD2
+DegToRad	KEYWORD2
+calculDistance	KEYWORD2
+speed_calcul	KEYWORD2
+
+# Setters
+setIN1	KEYWORD2
+setIN2	KEYWORD2
+setIN3	KEYWORD2
+setIN4	KEYWORD2
+setInterruptPinRA	KEYWORD2
+setInterruptPinRB	KEYWORD2
+setInterruptPinLA	KEYWORD2
+setInterruptPinLB	KEYWORD2
+setKp	KEYWORD2
+setKi	KEYWORD2
+setWheelRadius	KEYWORD2
+setEntreaxe	KEYWORD2
+setPWMMax	KEYWORD2
+setPWMMin	KEYWORD2
+setMaxSpeed	KEYWORD2
+
+# Getters
+getDSTotal	KEYWORD2
+getTheta	KEYWORD2
+getCurrentVelocityRight	KEYWORD2
+getCurrentVelocityLeft	KEYWORD2
