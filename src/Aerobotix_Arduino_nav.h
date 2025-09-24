@@ -174,6 +174,23 @@ private:
     float _total_ech_l = 0, _total_ech_r = 0;
     unsigned long _previousMillis = 0;
     long _t = 0;
+    // ===== CONTROL PARAMETERS =====
+    int _maxSpeed = 255;
+    int _minSpeed = 0;
+    int _maxAcc = 100;  
+    float _PI = 3.14159265;
+
+    // ===== PID PARAMETERS =====
+    float _kp = 1.0, _ki = 0.0, _kTheta = 1.0, _kp_dour = 1.0, _k_position = 1.0;
+
+    // ===== TICKS CONVERSION =====
+    float _tickcmR = 0, _tickcmL = 0;
+    int _tickZR_P = 0, _tickZL_N = 0, _tickZL_P = 0, _tickZR_N = 0;
+
+    // ===== PWM LIMITS =====
+    float _PWM_MIN = 0, _PWM_MAX = 255;
+    float _PWM_MIN_DOURA = 0, _PWM_MAX_DOURA = 255;
+
 
     // ===== STATIC ISR SUPPORT =====
     static Aerobotix_Arduino_nav* instance; // pointer for static ISRs
